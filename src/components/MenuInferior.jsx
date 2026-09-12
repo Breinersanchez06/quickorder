@@ -1,13 +1,21 @@
-export function MenuInferior({setCategoriaActiva}) {
+export function MenuInferior({ categorias = [], setCategoriaActiva }) {
+    const listaCategorias = categorias.filter(cat => (cat.nombre || cat.label) !== "Inicio");
+
     return (
         <>
         <div className="footer-column">
               <h4 className="footer-heading">Categorías</h4>
               <ul className="footer-list">
-                <li><button onClick={() => setCategoriaActiva("Hamburguesas")}>Hamburguesas</button></li>
-                <li><button onClick={() => setCategoriaActiva("Salchipapas")}>Salchipapas</button></li>
-                <li><button onClick={() => setCategoriaActiva("Perros Calientes")}>Perros Calientes</button></li>
-                <li><button onClick={() => setCategoriaActiva("Bebidas")}>Bebidas</button></li>
+                {listaCategorias.map((cat) => {
+                    const nombreCat = cat.nombre || cat.label;
+                    return (
+                        <li key={cat.id}>
+                            <button onClick={() => setCategoriaActiva(nombreCat)}>
+                                {nombreCat}
+                            </button>
+                        </li>
+                    );
+                })}
               </ul>
             </div>
         </>

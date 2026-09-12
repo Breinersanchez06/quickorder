@@ -1,6 +1,6 @@
 import { MenuInferior } from "./MenuInferior";
 
-export function Footer({setCategoriaActiva}) {
+export function Footer({ categorias = [], setCategoriaActiva }) {
 
     return (
         <>
@@ -17,7 +17,7 @@ export function Footer({setCategoriaActiva}) {
           </div>
 
           <div className="footer-links-group">
-            <MenuInferior setCategoriaActiva={setCategoriaActiva}/>
+            <MenuInferior categorias={categorias} setCategoriaActiva={setCategoriaActiva}/>
 
             <div className="footer-column">
               <h4 className="footer-heading">Contacto & Horarios</h4>

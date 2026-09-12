@@ -1,14 +1,6 @@
 import { Menu } from "./Menu";
 
-export function Header({ categoriaActiva, onSelectCategoria, cartCount = 0 }) {
-
-    const categorias = [
-        { id: "todas", label: "Inicio" },
-        { id: "hamburguesas", label: "Hamburguesas" },
-        { id: "perros", label: "Perros Calientes" },
-        { id: "salchipapas", label: "Salchipapas" },
-        { id: "bebidas", label: "Bebidas" }
-    ];
+export function Header({ categorias = [], categoriaActiva, onSelectCategoria, cartCount = 0 }) {
 
     return (
         <header className="header-navbar">

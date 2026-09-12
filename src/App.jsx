@@ -4,17 +4,19 @@ import { Header } from './components/Header';
 import { Banner } from './components/Banner';
 import { Product } from './components/Product';
 import { Footer } from './components/Footer';
+import { obtenerProductos } from './services/productService';
+import { obtenerCategorias } from './services/categoryService';
 
 function App() {
   const [categoriaActiva, setCategoriaActiva] = useState("Inicio");
   const [cartCount, setCartCount] = useState(0);
 
   const [productos, setProductos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    fetch('https://6a9439890e895b145e5f552f.mockapi.io/producto')
-      .then((response) => response.json())
+    obtenerProductos()
       .then((data) => {
         setProductos(data);
         setCargando(false);
@@ -22,6 +24,14 @@ function App() {
       .catch((error) => {
         console.error('Error al obtener los productos:', error);
         setCargando(false);
+      });
+
+    obtenerCategorias()
+      .then((data) => {
+        setCategorias(data);
+      })
+      .catch((error) => {
+        console.error('Error al obtener las categorías:', error);
       });
   }, []);
 
@@ -36,6 +46,7 @@ function App() {
   return (
     <div className="app-layout">
       <Header 
+        categorias={categorias}
         categoriaActiva={categoriaActiva} 
         onSelectCategoria={setCategoriaActiva}
         cartCount={cartCount}
@@ -77,7 +88,10 @@ function App() {
       </main>
 
       {/* Footer integrado directamente en App.jsx */}
-      <Footer setCategoriaActiva={setCategoriaActiva}/>
+      <Footer 
+        categorias={categorias}
+        setCategoriaActiva={setCategoriaActiva}
+      />
     </div>
   );
 }
