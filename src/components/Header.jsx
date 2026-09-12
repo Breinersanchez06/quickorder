@@ -1,4 +1,7 @@
+import { Menu } from "./Menu";
+
 export function Header({ categoriaActiva, onSelectCategoria, cartCount = 0 }) {
+
     const categorias = [
         { id: "todas", label: "Inicio" },
         { id: "hamburguesas", label: "Hamburguesas" },
@@ -17,17 +20,7 @@ export function Header({ categoriaActiva, onSelectCategoria, cartCount = 0 }) {
                 </div>
                 
                 {/* Categories Navigation */}
-                <nav className="nav-categories">
-                    {categorias.map((cat) => (
-                        <button
-                            key={cat.id}
-                            className={`category-pill ${categoriaActiva === cat.label ? 'active' : ''}`}
-                            onClick={() => onSelectCategoria(cat.label)}
-                        >
-                            {cat.label}
-                        </button>
-                    ))}
-                </nav>
+                <Menu categorias={categorias} onSelectCategoria={onSelectCategoria} categoriaActiva={categoriaActiva} />
 
                 {/* Cart Action */}
                 <div className="header-actions">
