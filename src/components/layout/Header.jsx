@@ -46,13 +46,6 @@ export function Header({
             >
               ⚙️ Productos
             </NavLink>
-            <NavLink 
-              to="/categorias" 
-              className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
-              style={{ textDecoration: 'none' }}
-            >
-              📂 Categorías
-            </NavLink>
           </div>
 
           {esCatalogo && (
