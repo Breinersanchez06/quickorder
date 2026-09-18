@@ -1,5 +1,7 @@
 export function MenuInferior({ categorias = [], setCategoriaActiva }) {
-    const listaCategorias = categorias.filter(cat => (cat.nombre || cat.label) !== "Inicio");
+    const listaCategorias = categorias
+        .filter((cat) => (cat.nombre || cat.label) !== "Inicio")
+        .filter((cat) => cat.estado === undefined || cat.estado === 1 || cat.estado === '1' || cat.estado === true || cat.estado === 'true');
 
     return (
         <>

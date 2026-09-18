@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 export function FormularioCategoria({ categoriaAEditar, onGuardar, onCancelar, guardando }) {
   const initialFormState = {
     nombre: '',
-    descripcion: ''
+    descripcion: '',
+    estado: 1
   };
 
   const [formData, setFormData] = useState(initialFormState);
@@ -12,7 +13,8 @@ export function FormularioCategoria({ categoriaAEditar, onGuardar, onCancelar, g
     if (categoriaAEditar) {
       setFormData({
         nombre: categoriaAEditar.nombre || '',
-        descripcion: categoriaAEditar.descripcion || ''
+        descripcion: categoriaAEditar.descripcion || '',
+        estado: categoriaAEditar.estado !== undefined ? Number(categoriaAEditar.estado) : 1
       });
     } else {
       setFormData(initialFormState);
@@ -33,7 +35,13 @@ export function FormularioCategoria({ categoriaAEditar, onGuardar, onCancelar, g
       alert('Por favor completa el nombre de la categoría.');
       return;
     }
-    onGuardar(formData);
+
+    const dataToSend = {
+      ...formData,
+      estado: Number(formData.estado)
+    };
+
+    onGuardar(dataToSend);
   };
 
   const esEdicion = Boolean(categoriaAEditar);
@@ -68,8 +76,23 @@ export function FormularioCategoria({ categoriaAEditar, onGuardar, onCancelar, g
             />
           </div>
 
-          {/* Descripción */}
+          {/* Estado */}
           <div className="form-group">
+            <label htmlFor="estado" className="form-label">Estado de la Categoría</label>
+            <select
+              id="estado"
+              name="estado"
+              className="form-input"
+              value={formData.estado}
+              onChange={handleChange}
+            >
+              <option value="1">🟢 Activo (Visible en Navegación)</option>
+              <option value="0">⚪ Inactivo (Oculto)</option>
+            </select>
+          </div>
+
+          {/* Descripción */}
+          <div className="form-group" style={{ gridColumn: '1 / -1' }}>
             <label htmlFor="descripcion" className="form-label">Descripción (Opcional)</label>
             <textarea
               id="descripcion"

@@ -25,6 +25,7 @@ export function ListaCategoriasAdmin({ categorias = [], onEditar, onEliminar, ca
               <th>ID</th>
               <th>Nombre</th>
               <th>Descripción</th>
+              <th>Estado</th>
               <th className="text-right">Acciones</th>
             </tr>
           </thead>
@@ -39,6 +40,12 @@ export function ListaCategoriasAdmin({ categorias = [], onEditar, onEliminar, ca
 
                 <td>
                   <p className="td-desc">{cat.descripcion || <span className="text-muted">Sin descripción</span>}</p>
+                </td>
+
+                <td>
+                  <span className={(cat.estado === 1 || cat.estado === '1' || cat.estado === true || cat.estado === 'true' || cat.estado === undefined) ? 'badge-status-active' : 'badge-status-inactive'}>
+                    {(cat.estado === 1 || cat.estado === '1' || cat.estado === true || cat.estado === 'true' || cat.estado === undefined) ? '● Activo' : '○ Inactivo'}
+                  </span>
                 </td>
 
                 <td className="td-actions text-right">

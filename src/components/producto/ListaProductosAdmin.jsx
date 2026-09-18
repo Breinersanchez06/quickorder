@@ -27,7 +27,8 @@ export function ListaProductosAdmin({ productos = [], onEditar, onEliminar, carg
               <th>Nombre</th>
               <th>Categoría</th>
               <th>Precio</th>
-              <th>Etiqueta</th>
+              <th>Stock</th>
+              <th>Estado</th>
               <th className="text-right">Acciones</th>
             </tr>
           </thead>
@@ -50,10 +51,21 @@ export function ListaProductosAdmin({ productos = [], onEditar, onEliminar, carg
                   <span className="badge-category">{prod.categoria || 'Sin categoría'}</span>
                 </td>
                 <td className="td-price">
-                  {prod.precio?.startsWith?.('$') ? prod.precio : `$ ${prod.precio}`}
+                  {typeof prod.precio === 'number'
+                    ? `$ ${prod.precio.toLocaleString('es-CO')}`
+                    : String(prod.precio || '').startsWith('$')
+                    ? prod.precio
+                    : `$ ${prod.precio || 0}`}
                 </td>
                 <td>
-                  {prod.tag ? <span className="badge-tag">{prod.tag}</span> : <span className="text-muted">-</span>}
+                  <span className={`badge-stock ${Number(prod.stock) === 0 ? 'badge-stock-out' : Number(prod.stock) <= 5 ? 'badge-stock-low' : ''}`}>
+                    {prod.stock !== undefined && prod.stock !== null ? prod.stock : '-'}
+                  </span>
+                </td>
+                <td>
+                  <span className={(prod.estado === true || prod.estado === 'true' || prod.estado === 1 || prod.estado === '1' || prod.estado === undefined) ? 'badge-status-active' : 'badge-status-inactive'}>
+                    {(prod.estado === true || prod.estado === 'true' || prod.estado === 1 || prod.estado === '1' || prod.estado === undefined) ? '● Activo' : '○ Inactivo'}
+                  </span>
                 </td>
                 <td className="td-actions text-right">
                   <button className="btn-action-edit" onClick={() => onEditar(prod)}>

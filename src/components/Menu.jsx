@@ -1,8 +1,11 @@
-export function Menu({categorias, onSelectCategoria, categoriaActiva}) {
+export function Menu({ categorias = [], onSelectCategoria, categoriaActiva }) {
+    const categoriasActivas = categorias.filter(
+        (cat) => cat.estado === undefined || cat.estado === 1 || cat.estado === '1' || cat.estado === true || cat.estado === 'true'
+    );
+
     return (
-        <>
-            <nav className="nav-categories">
-            {categorias.map((cat) => {
+        <nav className="nav-categories">
+            {categoriasActivas.map((cat) => {
                 const nombreCat = cat.nombre || cat.label;
                 return (
                     <button
@@ -14,8 +17,7 @@ export function Menu({categorias, onSelectCategoria, categoriaActiva}) {
                     </button>
                 );
             })}
-            </nav>
-        </>
+        </nav>
     );
 }
 

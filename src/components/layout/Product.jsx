@@ -1,8 +1,15 @@
-export function Product({ indice, nombre, descripcion, precio, imagen, tag, onAddToCart }) {
+export function Product({ indice, nombre, descripcion, precio, imagen, tag, stock, onAddToCart }) {
+    const agotado = stock !== undefined && stock !== null && Number(stock) <= 0;
+
     return (
         <article className="product-card" key={indice}>
             <div className="product-image-container">
                 {tag && <span className="product-tag">{tag}</span>}
+                {agotado && (
+                    <span className="product-tag" style={{ left: 'auto', right: '12px', backgroundColor: '#dc2626' }}>
+                        Agotado
+                    </span>
+                )}
                 {imagen ? (
                     <img src={imagen} alt={nombre} className="product-image" loading="lazy" />
                 ) : (
@@ -16,11 +23,20 @@ export function Product({ indice, nombre, descripcion, precio, imagen, tag, onAd
                     <div className="price-wrapper">
                         <span className="price-label">Precio</span>
                         <span className="product-price">
-                            {precio.startsWith('$') ? precio : `$ ${precio}`}
+                            {typeof precio === 'number'
+                                ? `$ ${precio.toLocaleString('es-CO')}`
+                                : String(precio || '').startsWith('$')
+                                ? precio
+                                : `$ ${precio || 0}`}
                         </span>
                     </div>
-                    <button className="btn-add-order" onClick={() => onAddToCart && onAddToCart(nombre)}>
-                        <span className="btn-plus">+</span> Agregar
+                    <button 
+                        className="btn-add-order" 
+                        onClick={() => !agotado && onAddToCart && onAddToCart(nombre)}
+                        disabled={agotado}
+                        style={agotado ? { opacity: 0.6, cursor: 'not-allowed', backgroundColor: '#94a3b8' } : {}}
+                    >
+                        <span className="btn-plus">{agotado ? '✕' : '+'}</span> {agotado ? 'Agotado' : 'Agregar'}
                     </button>
                 </div>
             </div>

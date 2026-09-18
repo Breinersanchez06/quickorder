@@ -5,6 +5,8 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
     nombre: '',
     descripcion: '',
     precio: '',
+    stock: 10,
+    estado: true,
     categoria: categorias.length > 0 ? (categorias[0].nombre || categorias[0].label) : 'Hamburguesas',
     imagen: '',
     tag: ''
@@ -17,7 +19,9 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
       setFormData({
         nombre: productoAEditar.nombre || '',
         descripcion: productoAEditar.descripcion || '',
-        precio: productoAEditar.precio || '',
+        precio: productoAEditar.precio ?? '',
+        stock: productoAEditar.stock ?? 0,
+        estado: productoAEditar.estado !== undefined ? Boolean(productoAEditar.estado) : true,
         categoria: productoAEditar.categoria || (categorias[0]?.nombre || 'Hamburguesas'),
         imagen: productoAEditar.imagen || '',
         tag: productoAEditar.tag || ''
@@ -28,20 +32,33 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
   }, [productoAEditar]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'checkbox' ? checked : value
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.nombre.trim() || !formData.precio) {
+    if (!formData.nombre.trim() || formData.precio === '') {
       alert('Por favor completa el nombre y el precio del producto.');
       return;
     }
-    onGuardar(formData);
+
+    // Convertir precio y stock a número
+    const precioNumerico = typeof formData.precio === 'string'
+      ? Number(formData.precio.replace(/[^0-9.-]+/g, ''))
+      : Number(formData.precio);
+
+    const dataToSend = {
+      ...formData,
+      precio: !isNaN(precioNumerico) ? precioNumerico : formData.precio,
+      stock: Number(formData.stock) || 0,
+      estado: Boolean(formData.estado === true || formData.estado === 'true' || formData.estado === 1 || formData.estado === '1')
+    };
+
+    onGuardar(dataToSend);
   };
 
   const esEdicion = Boolean(productoAEditar);
@@ -78,15 +95,47 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
           <div className="form-group">
             <label htmlFor="precio" className="form-label">Precio ($) *</label>
             <input
-              type="text"
+              type="number"
               id="precio"
               name="precio"
+              min="0"
               className="form-input"
-              placeholder="Ej. 18500 o $18.500"
+              placeholder="Ej. 18500"
               value={formData.precio}
               onChange={handleChange}
               required
             />
+          </div>
+
+          {/* Stock */}
+          <div className="form-group">
+            <label htmlFor="stock" className="form-label">Stock / Cantidad *</label>
+            <input
+              type="number"
+              id="stock"
+              name="stock"
+              min="0"
+              className="form-input"
+              placeholder="Ej. 20"
+              value={formData.stock}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          {/* Estado */}
+          <div className="form-group">
+            <label htmlFor="estado" className="form-label">Estado del Producto</label>
+            <select
+              id="estado"
+              name="estado"
+              className="form-input"
+              value={String(formData.estado)}
+              onChange={handleChange}
+            >
+              <option value="true">🟢 Activo (Visible en Catálogo)</option>
+              <option value="false">⚪ Inactivo (Oculto)</option>
+            </select>
           </div>
 
           {/* Categoría */}
