@@ -151,6 +151,7 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
               {categorias.length > 0 ? (
                 categorias
                   .filter(c => (c.nombre || c.label) !== "Inicio")
+                  .filter(c => c.estado === undefined || c.estado === 1 || c.estado === '1' || c.estado === true || c.estado === 'true' || (productoAEditar && (c.nombre || c.label) === formData.categoria))
                   .map(c => {
                     const val = c.nombre || c.label;
                     return <option key={c.id} value={val}>{val}</option>;
