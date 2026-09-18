@@ -1,11 +1,12 @@
 export function MenuInferior({ categorias = [], setCategoriaActiva }) {
-    const listaCategorias = categorias.filter(cat => (cat.nombre || cat.label) !== "Inicio");
+    const listaCategorias = categorias
+        .filter((cat) => (cat.nombre || cat.label) !== "Inicio")
+        .filter((cat) => cat.estado === undefined || cat.estado === 1 || cat.estado === '1' || cat.estado === true || cat.estado === 'true');
 
     return (
-        <>
         <div className="footer-column">
-              <h4 className="footer-heading">Categorías</h4>
-              <ul className="footer-list">
+            <h4 className="footer-heading">Categorías</h4>
+            <ul className="footer-list">
                 {listaCategorias.map((cat) => {
                     const nombreCat = cat.nombre || cat.label;
                     return (
@@ -16,11 +17,7 @@ export function MenuInferior({ categorias = [], setCategoriaActiva }) {
                         </li>
                     );
                 })}
-              </ul>
-            </div>
-        </>
+            </ul>
+        </div>
     );
 }
-
-
-    

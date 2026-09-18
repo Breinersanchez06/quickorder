@@ -1,5 +1,5 @@
-import { Banner } from '../components/Banner';
-import { Product } from '../components/Product';
+import { Banner } from '../components/layout/Banner';
+import { Product } from '../components/layout/Product';
 
 export function CatalogoPage({ productos = [], categoriaActiva, onAddToCart, cargando }) {
   const productosVisibles = productos.filter(

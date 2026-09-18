@@ -499,6 +499,8 @@
   background-color: #f1f5f9;
   padding: 4px;
   border-radius: 12px;
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 .view-btn {

@@ -1,14 +1,23 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
-import { Header } from './components/Header';
-import { Footer } from './components/Footer';
+import { Header } from './components/layout/Header';
+import { Footer } from './components/layout/Footer';
 import { CatalogoPage } from './pages/CatalogoPage';
 import { ProductosPage } from './pages/ProductosPage';
 import { CategoriasPage } from './pages/CategoriasPage';
+import { ClientesPage } from './pages/ClientesPage';
+import { EstadosOrdenPage } from './pages/EstadosOrdenPage';
+import { UsuariosPage } from './pages/UsuariosPage';
+import { InformacionPage } from './pages/InformacionPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+
 import { obtenerProductos } from './services/productService';
 import { obtenerCategorias } from './services/categoryService';
+import { obtenerClientes } from './services/clientService';
+import { obtenerEstadosOrden } from './services/orderStatusService';
+import { obtenerUsuarios } from './services/userService';
+import { obtenerInformacion } from './services/informationService';
 
 function App() {
   const [categoriaActiva, setCategoriaActiva] = useState("Inicio");
@@ -16,40 +25,109 @@ function App() {
 
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
-  const [cargando, setCargando] = useState(true);
+  const [clientes, setClientes] = useState([]);
+  const [estadosOrden, setEstadosOrden] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
+  const [informacion, setInformacion] = useState([]);
+
+  const [cargandoProductos, setCargandoProductos] = useState(true);
+  const [cargandoCategorias, setCargandoCategorias] = useState(true);
+  const [cargandoClientes, setCargandoClientes] = useState(true);
+  const [cargandoEstadosOrden, setCargandoEstadosOrden] = useState(true);
+  const [cargandoUsuarios, setCargandoUsuarios] = useState(true);
+  const [cargandoInformacion, setCargandoInformacion] = useState(true);
 
   const navigate = useNavigate();
 
   const cargarProductos = () => {
-    setCargando(true);
+    setCargandoProductos(true);
     obtenerProductos()
       .then((data) => {
         setProductos(data);
-        setCargando(false);
+        setCargandoProductos(false);
       })
       .catch((error) => {
         console.error('Error al obtener los productos:', error);
-        setCargando(false);
+        setCargandoProductos(false);
       });
   };
 
   const cargarCategorias = () => {
+    setCargandoCategorias(true);
     obtenerCategorias()
       .then((data) => {
         setCategorias(data);
+        setCargandoCategorias(false);
       })
       .catch((error) => {
         console.error('Error al obtener las categorías:', error);
+        setCargandoCategorias(false);
+      });
+  };
+
+  const cargarClientes = () => {
+    setCargandoClientes(true);
+    obtenerClientes()
+      .then((data) => {
+        setClientes(data);
+        setCargandoClientes(false);
+      })
+      .catch((error) => {
+        console.error('Error al obtener los clientes:', error);
+        setCargandoClientes(false);
+      });
+  };
+
+  const cargarEstadosOrden = () => {
+    setCargandoEstadosOrden(true);
+    obtenerEstadosOrden()
+      .then((data) => {
+        setEstadosOrden(data);
+        setCargandoEstadosOrden(false);
+      })
+      .catch((error) => {
+        console.error('Error al obtener los estados de orden:', error);
+        setCargandoEstadosOrden(false);
+      });
+  };
+
+  const cargarUsuarios = () => {
+    setCargandoUsuarios(true);
+    obtenerUsuarios()
+      .then((data) => {
+        setUsuarios(data);
+        setCargandoUsuarios(false);
+      })
+      .catch((error) => {
+        console.error('Error al obtener los usuarios:', error);
+        setCargandoUsuarios(false);
+      });
+  };
+
+  const cargarInformacion = () => {
+    setCargandoInformacion(true);
+    obtenerInformacion()
+      .then((data) => {
+        setInformacion(data);
+        setCargandoInformacion(false);
+      })
+      .catch((error) => {
+        console.error('Error al obtener la información:', error);
+        setCargandoInformacion(false);
       });
   };
 
   useEffect(() => {
     cargarProductos();
     cargarCategorias();
+    cargarClientes();
+    cargarEstadosOrden();
+    cargarUsuarios();
+    cargarInformacion();
   }, []);
 
   const handleAddToCart = () => {
-    setCartCount(prev => prev + 1);
+    setCartCount((prev) => prev + 1);
   };
 
   const handleSeleccionarCategoriaFooter = (cat) => {
@@ -76,7 +154,7 @@ function App() {
                 productos={productos}
                 categoriaActiva={categoriaActiva}
                 onAddToCart={handleAddToCart}
-                cargando={cargando}
+                cargando={cargandoProductos}
               />
             } 
           />
@@ -89,7 +167,7 @@ function App() {
                 productos={productos}
                 categorias={categorias}
                 onActualizarProductos={cargarProductos}
-                cargando={cargando}
+                cargando={cargandoProductos}
               />
             } 
           />
@@ -101,7 +179,55 @@ function App() {
               <CategoriasPage 
                 categorias={categorias}
                 onActualizarCategorias={cargarCategorias}
-                cargando={cargando}
+                cargando={cargandoCategorias}
+              />
+            } 
+          />
+
+          {/* Ruta de Gestión de Clientes */}
+          <Route 
+            path="/clientes" 
+            element={
+              <ClientesPage 
+                clientes={clientes}
+                onActualizarClientes={cargarClientes}
+                cargando={cargandoClientes}
+              />
+            } 
+          />
+
+          {/* Ruta de Gestión de Estados de Orden */}
+          <Route 
+            path="/estados-orden" 
+            element={
+              <EstadosOrdenPage 
+                estadosOrden={estadosOrden}
+                onActualizarEstadosOrden={cargarEstadosOrden}
+                cargando={cargandoEstadosOrden}
+              />
+            } 
+          />
+
+          {/* Ruta de Gestión de Usuarios */}
+          <Route 
+            path="/usuarios" 
+            element={
+              <UsuariosPage 
+                usuarios={usuarios}
+                onActualizarUsuarios={cargarUsuarios}
+                cargando={cargandoUsuarios}
+              />
+            } 
+          />
+
+          {/* Ruta de Configuración de Información */}
+          <Route 
+            path="/informacion" 
+            element={
+              <InformacionPage 
+                informacion={informacion}
+                onActualizarInformacion={cargarInformacion}
+                cargando={cargandoInformacion}
               />
             } 
           />

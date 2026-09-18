@@ -28,24 +28,81 @@ export function Header({
           </div>
         )}
 
-        {/* Naves de rutas con NavLink y Carrito */}
+        {/* Navegación condicional según la vista actual */}
         <div className="header-actions" style={{ gap: '12px' }}>
           <div className="view-nav">
-            <NavLink 
-              to="/" 
-              end
-              className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
-              style={{ textDecoration: 'none' }}
-            >
-              🛍️ Catálogo
-            </NavLink>
-            <NavLink 
-              to="/productos" 
-              className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
-              style={{ textDecoration: 'none' }}
-            >
-              ⚙️ Productos
-            </NavLink>
+            {esCatalogo ? (
+              <>
+                <NavLink 
+                  to="/" 
+                  end
+                  className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  🛍️ Catálogo
+                </NavLink>
+                <NavLink 
+                  to="/productos" 
+                  className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  ⚙️ Admin
+                </NavLink>
+              </>
+            ) : (
+              <>
+                <NavLink 
+                  to="/" 
+                  end
+                  className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  🛍️ Catálogo
+                </NavLink>
+                <NavLink 
+                  to="/productos" 
+                  className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  ⚙️ Productos
+                </NavLink>
+                <NavLink 
+                  to="/categorias" 
+                  className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  📂 Categorías
+                </NavLink>
+                <NavLink 
+                  to="/clientes" 
+                  className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  👥 Clientes
+                </NavLink>
+                <NavLink 
+                  to="/estados-orden" 
+                  className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  📦 Estados Orden
+                </NavLink>
+                <NavLink 
+                  to="/usuarios" 
+                  className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  👤 Usuarios
+                </NavLink>
+                <NavLink 
+                  to="/informacion" 
+                  className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  ℹ️ Información
+                </NavLink>
+              </>
+            )}
           </div>
 
           {esCatalogo && (
