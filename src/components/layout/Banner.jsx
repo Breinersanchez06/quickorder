@@ -7,7 +7,6 @@ export function Banner() {
                 <p className="banner-subtitle">
                     Explora nuestro menú seleccionado, ingredientes frescos y entrega rápida a tu mesa o domicilio.
                 </p>
-                <h3>Breiner&steven</h3>
             </section>
         </>
     );
