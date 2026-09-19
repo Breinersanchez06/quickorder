@@ -8,6 +8,7 @@ export function Banner() {
                     Explora nuestro menú seleccionado, ingredientes frescos y entrega rápida a tu mesa o domicilio.
                 </p>
                 <h3>Breiner&steven</h3>
+                <h3>nueva</h3>
             </section>
         </>
     );
